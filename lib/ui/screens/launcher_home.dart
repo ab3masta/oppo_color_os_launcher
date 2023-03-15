@@ -11,7 +11,8 @@ class LauncherHome extends StatefulWidget {
   State<LauncherHome> createState() => _LauncherHomeState();
 }
 
-class _LauncherHomeState extends State<LauncherHome> {
+class _LauncherHomeState extends State<LauncherHome>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -78,36 +79,42 @@ class _LauncherHomeState extends State<LauncherHome> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: widget.launcherHomeApps!
                         .map((e) => Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  e is ApplicationWithIcon
-                                      ? SizedBox(
-                                          height: kToolbarHeight * 0.9,
-                                          width: kToolbarHeight * 0.9,
-                                          child: Image.memory(
-                                            e.icon,
-                                            fit: BoxFit.cover,
-                                          ))
-                                      : const SizedBox(
-                                          child: Text('color'),
+                              child: InkWell(
+                                onTap: () {
+                                  DeviceApps.openApp(e.packageName);
+                                  Navigator.pop(context, [e]);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    e is ApplicationWithIcon
+                                        ? SizedBox(
+                                            height: kToolbarHeight * 0.9,
+                                            width: kToolbarHeight * 0.9,
+                                            child: Image.memory(
+                                              e.icon,
+                                              fit: BoxFit.cover,
+                                            ))
+                                        : const SizedBox(
+                                            child: Text('color'),
+                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        e.appName,
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
                                         ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      e.appName,
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ))
                         .toList(),
@@ -118,4 +125,7 @@ class _LauncherHomeState extends State<LauncherHome> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -10,7 +10,7 @@ class Time extends StatefulWidget {
   State<Time> createState() => _TimeState();
 }
 
-class _TimeState extends State<Time> {
+class _TimeState extends State<Time> with AutomaticKeepAliveClientMixin {
   String formattedTime = DateFormat.Hm().format(DateTime.now());
   late Timer _timer;
 
@@ -53,4 +53,7 @@ class _TimeState extends State<Time> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
