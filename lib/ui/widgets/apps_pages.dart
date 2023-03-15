@@ -9,7 +9,8 @@ class AppsPages extends StatefulWidget {
   State<AppsPages> createState() => _AppsPagesState();
 }
 
-class _AppsPagesState extends State<AppsPages> {
+class _AppsPagesState extends State<AppsPages>
+    with AutomaticKeepAliveClientMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   final CarouselController _controller = CarouselController();
   int _current = 0;
@@ -70,4 +71,7 @@ class _AppsPagesState extends State<AppsPages> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

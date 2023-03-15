@@ -19,34 +19,40 @@ class AppsRow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: apps!.sublist(start, end).map((app) {
                   return Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        app is ApplicationWithIcon
-                            ? SizedBox(
-                                height: kToolbarHeight * 0.9,
-                                width: kToolbarHeight * 0.9,
-                                child: Image.memory(
-                                  app.icon,
-                                  fit: BoxFit.cover,
-                                ))
-                            : const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            app.appName,
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                    child: InkWell(
+                      onTap: () {
+                        DeviceApps.openApp(app.packageName);
+                        Navigator.pop(context, [app]);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          app is ApplicationWithIcon
+                              ? SizedBox(
+                                  height: kToolbarHeight * 0.9,
+                                  width: kToolbarHeight * 0.9,
+                                  child: Image.memory(
+                                    app.icon,
+                                    fit: BoxFit.cover,
+                                  ))
+                              : const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              app.appName,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 }).toList()),
@@ -61,34 +67,40 @@ class AppsRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: apps!.sublist(start, apps!.length).map((app) {
                       return Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            app is ApplicationWithIcon
-                                ? SizedBox(
-                                    height: kToolbarHeight * 0.9,
-                                    width: kToolbarHeight * 0.9,
-                                    child: Image.memory(
-                                      app.icon,
-                                      fit: BoxFit.cover,
-                                    ))
-                                : const SizedBox(),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                app.appName,
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                        child: InkWell(
+                          onTap: () {
+                            DeviceApps.openApp(app.packageName);
+                            Navigator.pop(context, [app]);
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              app is ApplicationWithIcon
+                                  ? SizedBox(
+                                      height: kToolbarHeight * 0.9,
+                                      width: kToolbarHeight * 0.9,
+                                      child: Image.memory(
+                                        app.icon,
+                                        fit: BoxFit.cover,
+                                      ))
+                                  : const SizedBox(),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  app.appName,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     }).toList()),

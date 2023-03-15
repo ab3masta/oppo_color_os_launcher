@@ -5,17 +5,13 @@ import 'package:oppo_launcher/ui/widgets/apps_list.dart';
 import 'package:oppo_launcher/ui/widgets/apps_pages.dart';
 
 class Home extends StatefulWidget {
-  static const route = '/home';
-
   const Home({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return HomeState();
-  }
+  State<Home> createState() => _HomeState();
 }
 
-class HomeState extends State {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   List<Application>? theApp, launcherHomeApps;
   List<Widget> appWidgets = [];
@@ -99,37 +95,44 @@ class HomeState extends State {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: theApp!
-                              .map((e) => Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      e is ApplicationWithIcon
-                                          ? SizedBox(
-                                              height: kToolbarHeight * 0.9,
-                                              width: kToolbarHeight * 0.9,
-                                              child: Image.memory(
-                                                e.icon,
-                                                fit: BoxFit.cover,
-                                              ))
-                                          : const SizedBox(
-                                              child: Text('color'),
+                              .map((e) => InkWell(
+                                    onTap: () {
+                                      DeviceApps.openApp(e.packageName);
+                                      // Navigator.pop(context, [e]);
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        e is ApplicationWithIcon
+                                            ? SizedBox(
+                                                height: kToolbarHeight * 0.9,
+                                                width: kToolbarHeight * 0.9,
+                                                child: Image.memory(
+                                                  e.icon,
+                                                  fit: BoxFit.cover,
+                                                ))
+                                            : const SizedBox(
+                                                child: Text('color'),
+                                              ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            e.appName,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
                                             ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          e.appName,
-                                          maxLines: 2,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ))
                               .toList(),
                         ),
@@ -140,6 +143,9 @@ class HomeState extends State {
           ],
         ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 Widget buildIcons(void Function() fn, Icon xicon) {
