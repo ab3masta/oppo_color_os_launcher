@@ -18,3 +18,4 @@ To report a security issue, please follow these steps:
 We take all security issues seriously and will do our best to fix any issues as soon as possible.
 
 Thank you for helping to keep Oppo ColorOS Launcher secure!
+
