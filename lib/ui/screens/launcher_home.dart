@@ -25,6 +25,7 @@ class _LauncherHomeState extends State<LauncherHome>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Column(

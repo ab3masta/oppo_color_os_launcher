@@ -27,6 +27,7 @@ class _AppsPagesState extends State<AppsPages>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         Expanded(

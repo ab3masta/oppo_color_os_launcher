@@ -35,6 +35,7 @@ class _TimeState extends State<Time> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.all(50),
       child: Column(
