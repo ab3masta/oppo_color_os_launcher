@@ -22,9 +22,9 @@ We welcome community contributions. To contribute to this project, please follow
 
 Here are some screenshots of the Oppo ColorOS Launcher in action:
 
-[<img src="assets/screenshots/1.png" alt= "1" height="500">](https://play.google.com/store/apps/details?id=com.acacurs.android.acacurs.documents)
-[<img src="assets/screenshots/4.png" alt= "1" height="500">](https://play.google.com/store/apps/details?id=com.acacurs.android.acacurs.documents)
-[<img src="assets/screenshots/5.png" alt= "1" height="500">](https://play.google.com/store/apps/details?id=com.acacurs.android.acacurs.documents)
+<img src="assets/screenshots/1.png" alt= "1" height="500">
+<img src="assets/screenshots/4.png" alt= "1" height="500">
+<img src="assets/screenshots/5.png" alt= "1" height="500">
 
 ## 📄 License
 
