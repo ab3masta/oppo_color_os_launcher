@@ -6,6 +6,9 @@ name: Release on merge
   push:
     branches:
       - develop
+
+permissions: write-all
+
 jobs:
   flutter_test:
     name: Run flutter test and analyze
@@ -101,8 +104,7 @@ jobs:
         with:
           tag_name: ${{ github.run_number }}
           release_name: Release ${{ github.run_number }}
-          body: | # ${{steps.github_release.outputs.changelog}}
-            Changes from actions
+          body: ${{steps.github_release.outputs.changelog}}
           draft: false
           prerelease: false
       - name: Upload Release Asset
