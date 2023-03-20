@@ -39,9 +39,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       onlyAppsWithLaunchIntent: false,
     );
 
-    for (var element in allAppsWithoutLaunchIntent) {
-      print("//? element.packageName ==> ${element.packageName} ");
-    }
+    // for (var element in allAppsWithoutLaunchIntent) {
+    //   print("//? element.packageName ==> ${element.packageName} ");
+    // }
 
     setState(() {
       launcherHomeApps = allAppsWithLaunchIntent
