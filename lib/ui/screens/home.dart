@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oppo_launcher/ui/screens/launcher_home.dart';
 import 'package:oppo_launcher/ui/widgets/apps_list.dart';
 import 'package:oppo_launcher/ui/widgets/apps_pages.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -23,32 +24,48 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> appInfo() async {
-    List<Application> allApps = await DeviceApps.getInstalledApplications(
+    // com.coloros.phonenoareainquire
+    // com.android.phone
+    List<Application> allAppsWithLaunchIntent =
+        await DeviceApps.getInstalledApplications(
       includeAppIcons: true,
       includeSystemApps: true,
       onlyAppsWithLaunchIntent: true,
     );
+    List<Application> allAppsWithoutLaunchIntent =
+        await DeviceApps.getInstalledApplications(
+      includeAppIcons: true,
+      includeSystemApps: true,
+      onlyAppsWithLaunchIntent: false,
+    );
 
-    // for (var element in allApps) {
-    //   print("//? element.packageName ==> ${element.packageName} ");
-    // }
+    for (var element in allAppsWithoutLaunchIntent) {
+      print("//? element.packageName ==> ${element.packageName} ");
+    }
 
     setState(() {
-      launcherHomeApps = allApps
+      launcherHomeApps = allAppsWithLaunchIntent
           .where((e) => [
                 "com.coloros.filemanager",
                 "com.coloros.safecenter",
                 "com.coloros.gallery3d",
+                "com.android.vending"
               ].contains(e.packageName))
           .toList();
-      theApp = allApps
+
+      theApp = allAppsWithoutLaunchIntent
           .where((e) => [
-                "com.android.contacts",
+                "com.android.phone",
                 "com.android.mms",
                 "com.oppo.camera",
                 "com.android.browser"
               ].contains(e.packageName))
           .toList();
+      allAppsWithLaunchIntent.add(theApp!
+          .where((e) => [
+                "com.android.phone",
+              ].contains(e.packageName))
+          .toList()[0]);
       appWidgets = [
         LauncherHome(
           launcherHomeApps: launcherHomeApps,
@@ -56,7 +73,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ];
     });
 
-    initAppWidgets(allApps, start: 0, end: 20);
+    initAppWidgets(allAppsWithLaunchIntent, start: 0, end: 20);
   }
 
   void initAppWidgets(List<Application> allApps,
@@ -98,8 +115,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                           children: theApp!
                               .map((e) => InkWell(
                                     onTap: () {
-                                      DeviceApps.openApp(e.packageName);
-                                      // Navigator.pop(context, [e]);
+                                      if (e.packageName ==
+                                          "com.android.phone") {
+                                        canLaunchUrl(
+                                                Uri(scheme: 'tel', path: ''))
+                                            .then((bool result) {
+                                          launchUrl(
+                                              Uri(scheme: 'tel', path: ''));
+                                        });
+                                      } else {
+                                        DeviceApps.openApp(e.packageName);
+                                        // Navigator.pop(context, [e]);
+                                      }
                                     },
                                     child: Column(
                                       crossAxisAlignment:
