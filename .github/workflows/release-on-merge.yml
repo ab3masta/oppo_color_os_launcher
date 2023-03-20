@@ -5,7 +5,7 @@ name: Release on merge
 "on":
   push:
     branches:
-      - develop
+      - master
 
 permissions: write-all
 
@@ -22,9 +22,9 @@ jobs:
         with:
           flutter-version: "2.10.4"
           channel: "stable"
-      # - run: flutter pub get
-      # - run: flutter analyze
-      # - run: flutter test
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
 
   build_apk:
     name: Generate apk files
