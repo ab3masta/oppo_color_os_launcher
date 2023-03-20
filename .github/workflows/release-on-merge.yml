@@ -101,7 +101,8 @@ jobs:
         with:
           tag_name: ${{ github.run_number }}
           release_name: Release ${{ github.run_number }}
-          body: ${{steps.github_release.outputs.changelog}}
+          body: | # ${{steps.github_release.outputs.changelog}}
+            Changes from actions
           draft: false
           prerelease: false
       - name: Upload Release Asset
