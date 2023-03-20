@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.oppo_launcher">
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
    <application
         android:label="Oppo ColorOS Launcher"
         android:name="${applicationName}"
