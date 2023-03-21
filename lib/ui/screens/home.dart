@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oppo_launcher/ui/screens/launcher_home.dart';
 import 'package:oppo_launcher/ui/widgets/apps_list.dart';
 import 'package:oppo_launcher/ui/widgets/apps_pages.dart';
+import 'package:oppo_launcher/utility/get_apps.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
@@ -44,23 +45,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     // }
 
     setState(() {
-      launcherHomeApps = allAppsWithLaunchIntent
-          .where((e) => [
-                "com.coloros.filemanager",
-                "com.coloros.safecenter",
-                "com.coloros.gallery3d",
-                "com.android.vending"
-              ].contains(e.packageName))
-          .toList();
-
-      theApp = allAppsWithoutLaunchIntent
-          .where((e) => [
-                "com.android.phone",
-                "com.android.mms",
-                "com.oppo.camera",
-                "com.android.browser"
-              ].contains(e.packageName))
-          .toList();
+      launcherHomeApps = getHomeApps(allAppsWithLaunchIntent);
+      theApp =
+          getHomeBasicApps(allAppsWithLaunchIntent, allAppsWithoutLaunchIntent);
       allAppsWithLaunchIntent.add(theApp!
           .where((e) => [
                 "com.android.phone",
@@ -100,66 +87,73 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Image.asset(
-              "assets/images/default-wallpapers.png",
-              fit: BoxFit.fitHeight,
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: Image.asset(
+                "assets/images/default-wallpapers.png",
+                fit: BoxFit.cover,
+              ),
             ),
             Column(
               children: [
                 Expanded(child: AppsPages(appWidgets: appWidgets)),
                 theApp != null
-                    ? SizedBox(
+                    ? Container(
                         height: kToolbarHeight * 1.8,
+                        color: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: theApp!
-                              .map((e) => InkWell(
-                                    onTap: () {
-                                      if (e.packageName ==
-                                          "com.android.phone") {
-                                        canLaunchUrl(
-                                                Uri(scheme: 'tel', path: ''))
-                                            .then((bool result) {
-                                          launchUrl(
-                                              Uri(scheme: 'tel', path: ''));
-                                        });
-                                      } else {
-                                        DeviceApps.openApp(e.packageName);
-                                        // Navigator.pop(context, [e]);
-                                      }
-                                    },
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        e is ApplicationWithIcon
-                                            ? SizedBox(
-                                                height: kToolbarHeight * 0.9,
-                                                width: kToolbarHeight * 0.9,
-                                                child: Image.memory(
-                                                  e.icon,
-                                                  fit: BoxFit.cover,
-                                                ))
-                                            : const SizedBox(
-                                                child: Text('color'),
+                              .map((e) => Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        if (e.packageName ==
+                                            "com.android.phone") {
+                                          canLaunchUrl(
+                                                  Uri(scheme: 'tel', path: ''))
+                                              .then((bool result) {
+                                            launchUrl(
+                                                Uri(scheme: 'tel', path: ''));
+                                          });
+                                        } else {
+                                          DeviceApps.openApp(e.packageName);
+                                          // Navigator.pop(context, [e]);
+                                        }
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          e is ApplicationWithIcon
+                                              ? SizedBox(
+                                                  height: kToolbarHeight * 0.9,
+                                                  width: kToolbarHeight * 0.9,
+                                                  child: Image.memory(
+                                                    e.icon,
+                                                    fit: BoxFit.cover,
+                                                  ))
+                                              : const SizedBox(
+                                                  child: Text('color'),
+                                                ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              e.appName,
+                                              maxLines: 2,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
                                               ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            e.appName,
-                                            maxLines: 2,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ))
                               .toList(),
