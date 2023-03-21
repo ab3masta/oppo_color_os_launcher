@@ -46,8 +46,8 @@ jobs:
       # Upload generated apk to the artifacts.
       - uses: actions/upload-artifact@master
         with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+          name: app-armeabi-v7a-release
+          path: build/app/outputs/apk/release/app-armeabi-v7a-release.apk
 
   # build_appbundle:
   #   name: Generate appbundle files
@@ -107,7 +107,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
-          name: release-apk
+          name: app-armeabi-v7a-release
           path: ./
       - name: Upload Release Asset
         id: upload-release-asset
@@ -116,6 +116,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_new_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: app-release.apk
-          asset_name: app-release.apk
+          asset_path: app-armeabi-v7a-release.apk
+          asset_name: app-armeabi-v7a-release.apk
           asset_content_type: application/apk
